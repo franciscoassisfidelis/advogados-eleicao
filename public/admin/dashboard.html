@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Dashboard — Advogados do Dia da Eleição</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="css/admin.css" />
+</head>
+<body>
+  <header class="admin-topo">
+    <div class="admin-marca">
+      <div class="selo">⚖</div>
+      <div class="textos">
+        <h1>Advogados — Dia da Eleição</h1>
+        <span class="subtitulo-topo">Coordenação Jurídica</span>
+      </div>
+    </div>
+    <div class="acoes">
+      <span id="usuario-logado"></span>
+      <button class="btn btn-primario" id="btn-exportar">⬇ Exportar Excel</button>
+      <button class="btn btn-claro" id="btn-salvar-drive">☁ Salvar no Drive</button>
+      <button class="btn btn-claro" id="btn-sair">Sair</button>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="painel-resumo" id="painel-resumo">
+      <div class="resumo-card">
+        <div class="icone">👥</div>
+        <div><div class="valor" id="resumo-total">–</div><div class="rotulo">Total cadastrados</div></div>
+      </div>
+      <div class="resumo-card azul">
+        <div class="icone">⏳</div>
+        <div><div class="valor" id="resumo-pendente">–</div><div class="rotulo">Pendentes</div></div>
+      </div>
+      <div class="resumo-card">
+        <div class="icone">✅</div>
+        <div><div class="valor" id="resumo-confirmado">–</div><div class="rotulo">Confirmados</div></div>
+      </div>
+      <div class="resumo-card azul">
+        <div class="icone">📍</div>
+        <div><div class="valor" id="resumo-municipios">–</div><div class="rotulo">Municípios cobertos</div></div>
+      </div>
+    </section>
+
+    <section class="filtros">
+      <div>
+        <label for="filtro-busca">Buscar</label>
+        <input type="text" id="filtro-busca" placeholder="Nome, CPF ou OAB" />
+      </div>
+      <div>
+        <label for="filtro-municipio">Município</label>
+        <select id="filtro-municipio"><option value="">Todos</option></select>
+      </div>
+      <div>
+        <label for="filtro-zona">Zona eleitoral</label>
+        <input type="text" id="filtro-zona" placeholder="Ex.: 25" />
+      </div>
+      <div>
+        <label for="filtro-status">Status</label>
+        <select id="filtro-status">
+          <option value="">Todos</option>
+          <option value="pendente">Pendente</option>
+          <option value="confirmado">Confirmado</option>
+        </select>
+      </div>
+    </section>
+
+    <div class="tabela-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>OAB</th>
+            <th>Município</th>
+            <th>Zona(s)</th>
+            <th>Telefone</th>
+            <th>E-mail</th>
+            <th>Documento</th>
+            <th>Status</th>
+            <th>Cadastrado em</th>
+          </tr>
+        </thead>
+        <tbody id="tabela-corpo">
+          <tr><td colspan="10" class="estado-carregando">Carregando…</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

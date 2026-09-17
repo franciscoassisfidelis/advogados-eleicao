@@ -1,0 +1,315 @@
+:root {
+  color-scheme: light;
+
+  /* Amarelo — cor predominante */
+  --amarelo: #ffc72c;
+  --amarelo-forte: #f0ad00;
+  --amarelo-escuro: #a86c00;
+  --amarelo-suave: #fff4d6;
+
+  /* Azul — cor de apoio */
+  --cor-primaria: #1e3a5f;
+  --cor-primaria-escura: #0f2540;
+  --azul-medio: #2c5282;
+  --azul-suave: #e8eef7;
+
+  --cor-fundo: #f7f5ef;
+  --cor-card: #ffffff;
+  --cor-texto: #1f2937;
+  --cor-texto-suave: #6b7280;
+  --cor-borda: #e6e1d3;
+  --cor-erro: #b91c1c;
+  --cor-erro-fundo: #fef2f2;
+  --cor-sucesso: #8a5a00;
+  --cor-sucesso-fundo: var(--amarelo-suave);
+  --raio: 12px;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+header.topo {
+  background: linear-gradient(120deg, var(--amarelo) 0%, var(--amarelo-forte) 55%, #e0a100 100%);
+  color: var(--cor-primaria-escura);
+  padding: 28px 16px;
+  box-shadow: 0 2px 10px rgba(168, 108, 0, 0.25);
+}
+
+header.topo .container {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.topo-marca {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.topo-marca .selo {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: var(--cor-primaria-escura);
+  color: var(--amarelo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+header.topo h1 {
+  margin: 0 0 4px;
+  font-size: 1.4rem;
+  color: var(--cor-primaria-escura);
+}
+
+header.topo p {
+  margin: 0;
+  color: #6b4d00;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.card {
+  background: var(--cor-card);
+  border-radius: var(--raio);
+  padding: 24px;
+  margin-top: 20px;
+  box-shadow: 0 1px 4px rgba(15, 37, 64, 0.08);
+  border-top: 4px solid var(--amarelo);
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0 0 20px;
+}
+
+legend {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 12px;
+  padding: 0;
+  color: var(--cor-primaria);
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin: 16px 0 6px;
+}
+
+label .obrigatorio { color: var(--cor-erro); }
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--cor-borda);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fffdf8;
+  color: var(--cor-texto);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--amarelo-forte);
+  box-shadow: 0 0 0 3px rgba(240, 173, 0, 0.18);
+}
+
+.linha-dupla {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 12px;
+}
+
+.ajuda {
+  font-size: 0.8rem;
+  color: var(--cor-texto-suave);
+  margin-top: 4px;
+}
+
+.zona-box {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: var(--azul-suave);
+  border: 1px solid #cfdcee;
+  font-size: 0.92rem;
+  display: none;
+}
+
+.zona-box.ativo { display: block; }
+
+.zona-box strong { color: var(--cor-primaria); }
+
+.zona-box.alerta {
+  background: var(--amarelo-suave);
+  border-color: #f0d484;
+  color: #7a5b00;
+}
+
+.upload-area {
+  border: 2px dashed var(--cor-borda);
+  border-radius: 8px;
+  padding: 18px;
+  text-align: center;
+  background: #fffdf8;
+}
+
+.upload-area input[type="file"] {
+  width: 100%;
+}
+
+.arquivo-selecionado {
+  margin-top: 8px;
+  font-size: 0.85rem;
+  color: var(--cor-primaria);
+  font-weight: 600;
+}
+
+.consentimento {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 20px;
+  background: var(--azul-suave);
+  padding: 14px;
+  border-radius: 8px;
+}
+
+.consentimento input[type="checkbox"] {
+  margin-top: 3px;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  accent-color: var(--cor-primaria);
+}
+
+.consentimento label {
+  margin: 0;
+  font-weight: 400;
+  font-size: 0.86rem;
+  color: var(--cor-texto-suave);
+}
+
+button.btn-enviar {
+  width: 100%;
+  margin-top: 24px;
+  padding: 14px;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--cor-primaria-escura);
+  background: linear-gradient(135deg, var(--amarelo), var(--amarelo-forte));
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.05s ease;
+}
+
+button.btn-enviar:hover:not(:disabled) { filter: brightness(1.05); }
+button.btn-enviar:active:not(:disabled) { transform: translateY(1px); }
+
+button.btn-enviar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mensagem {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  display: none;
+}
+
+.mensagem.erro {
+  display: block;
+  background: var(--cor-erro-fundo);
+  color: var(--cor-erro);
+  border: 1px solid #fecaca;
+}
+
+.mensagem.sucesso {
+  display: block;
+  background: var(--cor-sucesso-fundo);
+  color: var(--cor-sucesso);
+  border: 1px solid #f0d484;
+}
+
+.campo-erro {
+  border-color: var(--cor-erro) !important;
+}
+
+.erro-texto {
+  color: var(--cor-erro);
+  font-size: 0.78rem;
+  margin-top: 4px;
+  display: none;
+}
+
+.erro-texto.ativo { display: block; }
+
+.tela-sucesso {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.tela-sucesso .icone {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.tela-sucesso h2 {
+  color: var(--cor-primaria);
+}
+
+footer.rodape {
+  text-align: center;
+  color: var(--cor-texto-suave);
+  font-size: 0.78rem;
+  margin-top: 32px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --cor-fundo: #10141c;
+    --cor-card: #1a2130;
+    --cor-texto: #e5e7eb;
+    --cor-texto-suave: #9ca3af;
+    --cor-borda: #33394a;
+    --amarelo-suave: #3a2f0c;
+    --azul-suave: #1c2b40;
+    --cor-sucesso-fundo: #3a2f0c;
+    --cor-sucesso: #ffd873;
+  }
+  :root:not([data-theme="light"]) input,
+  :root:not([data-theme="light"]) select {
+    background: #11151f;
+    color: #e5e7eb;
+  }
+  :root:not([data-theme="light"]) .upload-area { background: #11151f; }
+}

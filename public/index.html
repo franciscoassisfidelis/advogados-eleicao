@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Cadastro de Advogados — Dia da Eleição</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topo">
+    <div class="container">
+      <div class="topo-marca">
+        <div class="selo">⚖</div>
+        <div>
+          <h1>Cadastro de Advogados — Dia da Eleição</h1>
+          <p>Coordenação Jurídica · Apoio jurídico à campanha nos municípios da Paraíba</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="area-formulario" class="card">
+      <p style="margin-top:0; color: var(--cor-texto-suave); font-size: 0.92rem;">
+        Preencha seus dados para atuar como advogado(a) de apoio jurídico no dia da eleição.
+        Cada advogado(a) é designado(a) a um único município. A zona eleitoral é preenchida
+        automaticamente a partir do município escolhido.
+      </p>
+
+      <form id="form-cadastro" novalidate>
+        <fieldset>
+          <legend>Dados pessoais</legend>
+
+          <label for="nome_completo">Nome completo <span class="obrigatorio">*</span></label>
+          <input type="text" id="nome_completo" name="nome_completo" required autocomplete="name" />
+          <div class="erro-texto" data-erro-de="nome_completo"></div>
+
+          <label for="cpf">CPF <span class="obrigatorio">*</span></label>
+          <input type="text" id="cpf" name="cpf" inputmode="numeric" placeholder="000.000.000-00" required />
+          <div class="erro-texto" data-erro-de="cpf"></div>
+
+          <label>Inscrição na OAB <span class="obrigatorio">*</span></label>
+          <div class="linha-dupla">
+            <div>
+              <input type="text" id="oab_seccional" name="oab_seccional" placeholder="PB" value="PB" maxlength="2" required />
+            </div>
+            <div>
+              <input type="text" id="oab_numero" name="oab_numero" inputmode="numeric" placeholder="Número de inscrição" required />
+            </div>
+          </div>
+          <div class="ajuda">Ex.: seccional "PB", número "12345" → OAB/PB 12345</div>
+          <div class="erro-texto" data-erro-de="oab_numero"></div>
+
+          <label for="telefone">Telefone / WhatsApp <span class="obrigatorio">*</span></label>
+          <input type="tel" id="telefone" name="telefone" placeholder="(83) 99999-9999" required autocomplete="tel" />
+          <div class="erro-texto" data-erro-de="telefone"></div>
+
+          <label for="email">E-mail <span class="obrigatorio">*</span></label>
+          <input type="email" id="email" name="email" required autocomplete="email" />
+          <div class="erro-texto" data-erro-de="email"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Município de atuação</legend>
+
+          <label for="municipio">Município <span class="obrigatorio">*</span></label>
+          <select id="municipio" name="municipio" required>
+            <option value="" disabled selected>Carregando municípios…</option>
+          </select>
+          <div class="erro-texto" data-erro-de="municipio"></div>
+
+          <div id="zona-box" class="zona-box"></div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Documento da OAB</legend>
+          <label for="documento_oab">Carteira da OAB (imagem ou PDF) <span class="obrigatorio">*</span></label>
+          <div class="ajuda" style="margin-top:-2px; margin-bottom:8px;">
+            A carteira da OAB serve como documento de identidade — não é necessário anexar RG.
+          </div>
+          <div class="upload-area">
+            <input type="file" id="documento_oab" name="documento_oab" accept="image/png,image/jpeg,image/webp,application/pdf" required />
+            <div class="ajuda">Formatos aceitos: JPG, PNG, WEBP ou PDF · até 10 MB</div>
+            <div id="arquivo-selecionado" class="arquivo-selecionado"></div>
+          </div>
+          <div class="erro-texto" data-erro-de="documento_oab"></div>
+        </fieldset>
+
+        <div class="consentimento">
+          <input type="checkbox" id="consentimento_lgpd" name="consentimento_lgpd" required />
+          <label for="consentimento_lgpd">
+            Autorizo o tratamento dos meus dados pessoais informados neste formulário
+            (nome, CPF, dados da OAB, contato e documento anexado) pela Coordenação
+            Jurídica da campanha, exclusivamente para fins de organização do apoio
+            jurídico no dia da eleição, nos termos da Lei nº 13.709/2018 (LGPD). <span class="obrigatorio">*</span>
+          </label>
+        </div>
+        <div class="erro-texto" data-erro-de="consentimento_lgpd"></div>
+
+        <div id="mensagem" class="mensagem" role="alert"></div>
+
+        <button type="submit" class="btn-enviar" id="btn-enviar">Enviar cadastro</button>
+      </form>
+    </div>
+
+    <div id="tela-sucesso" class="card tela-sucesso" hidden>
+      <div class="icone">✅</div>
+      <h2>Cadastro recebido!</h2>
+      <p id="texto-sucesso">Obrigado por se voluntariar. A Coordenação Jurídica entrará em contato para confirmar seus dados.</p>
+    </div>
+
+    <footer class="rodape">
+      Seus dados são tratados com confidencialidade pela Coordenação Jurídica, conforme a LGPD.
+    </footer>
+  </main>
+
+  <script type="module" src="js/form.js"></script>
+</body>
+</html>

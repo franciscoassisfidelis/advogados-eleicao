@@ -23,6 +23,12 @@ grant insert, update, delete on public.municipios_zonas to authenticated;
 grant select, insert on public.advogados to anon;
 grant select, update, delete on public.advogados to authenticated;
 
+-- service_role (usado nas Netlify Functions) também precisa do GRANT de
+-- tabela, apesar de ignorar RLS — sem isso, export-xlsx.js e
+-- sync-drive.js falham com "permission denied for table advogados".
+grant all on public.municipios_zonas to service_role;
+grant all on public.advogados to service_role;
+
 drop policy if exists "advogados: admin exclui" on public.advogados;
 create policy "advogados: admin exclui"
   on public.advogados

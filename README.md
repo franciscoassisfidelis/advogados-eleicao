@@ -59,6 +59,7 @@ tabela para o usuário autenticado).
    - `supabase/002_rls_policies.sql`
    - `supabase/003_storage.sql`
    - `supabase/004_seed_municipios_zonas.sql`
+   - `supabase/005_grants_and_delete_policy.sql`
 3. Em **Authentication → Providers**, mantenha **Email** habilitado.
 4. Em **Authentication → Settings**, **desative "Allow new users to sign
    up"** — o acesso ao dashboard deve ficar restrito a um único usuário,
@@ -67,8 +68,17 @@ tabela para o usuário autenticado).
    Jurídica (e-mail + senha). Esse é o único login do dashboard admin.
 6. Em **Project Settings → API**, anote:
    - `Project URL` → `SUPABASE_URL`
-   - `anon public` key → `SUPABASE_ANON_KEY` (vai no frontend, é uma chave pública)
-   - `service_role` key → `SUPABASE_SERVICE_ROLE_KEY` (⚠️ secreta, só nas Netlify Functions)
+   - chave pública (aba "Publishable and secret API keys", `Publishable key`,
+     **ou** a `anon public` da aba "Legacy") → `SUPABASE_ANON_KEY` (vai no
+     frontend, é uma chave pública por design)
+   - **use a chave `service_role` da aba "Legacy anon, service_role API
+     keys"** (formato JWT, começa com `eyJ...`) → `SUPABASE_SERVICE_ROLE_KEY`
+     (⚠️ secreta, só nas Netlify Functions). A chave nova `sb_secret_...`
+     não é usada aqui de propósito: a versão do `@supabase/supabase-js`
+     fixada no `package.json` (2.45.4) não valida sessões corretamente com
+     esse formato em `auth.getUser()`, causando "Sessão inválida ou
+     expirada" mesmo com um token válido — use sempre a legacy até
+     atualizar a lib e confirmar compatibilidade.
 
 ## 3. Configurar o frontend
 

@@ -24,8 +24,8 @@
     <div id="area-formulario" class="card">
       <p style="margin-top:0; color: var(--cor-texto-suave); font-size: 0.92rem;">
         Preencha seus dados para atuar como advogado(a) de apoio jurídico no dia da eleição.
-        Cada advogado(a) é designado(a) a um único município. A zona eleitoral é preenchida
-        automaticamente a partir do município escolhido.
+        Cada advogado(a) é designado(a) a um único município principal (a zona eleitoral é
+        preenchida automaticamente a partir dele), podendo indicar outros municípios de apoio.
       </p>
 
       <form id="form-cadastro" novalidate>
@@ -64,13 +64,20 @@
         <fieldset>
           <legend>Município de atuação</legend>
 
-          <label for="municipio">Município <span class="obrigatorio">*</span></label>
+          <label for="municipio">Município principal <span class="obrigatorio">*</span></label>
           <select id="municipio" name="municipio" required>
             <option value="" disabled selected>Carregando municípios…</option>
           </select>
           <div class="erro-texto" data-erro-de="municipio"></div>
 
           <div id="zona-box" class="zona-box"></div>
+
+          <label>Município(s) de apoio</label>
+          <div class="ajuda" style="margin-top:-2px; margin-bottom:8px;">
+            Opcional. Municípios adicionais onde você também pode apoiar juridicamente, se necessário.
+          </div>
+          <div id="lista-municipios-apoio"></div>
+          <button type="button" id="btn-add-apoio" class="btn-secundario">+ Adicionar município de apoio</button>
         </fieldset>
 
         <fieldset>

@@ -171,6 +171,45 @@ input:focus, select:focus {
   color: #7a5b00;
 }
 
+.linha-municipio-apoio {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.linha-municipio-apoio select {
+  flex: 1;
+}
+
+.btn-remover-apoio {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1.5px solid var(--cor-borda);
+  background: #fff;
+  color: var(--cor-erro);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.btn-remover-apoio:hover { background: var(--cor-erro-fundo); }
+
+.btn-secundario {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 8px 14px;
+  background: var(--azul-suave);
+  color: var(--cor-primaria);
+  border: 1.5px solid #cfdcee;
+  border-radius: 8px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn-secundario:hover { background: #dbe6f4; }
+
 .upload-area {
   border: 2px dashed var(--cor-borda);
   border-radius: 8px;

@@ -107,6 +107,7 @@ function linhaHtml(reg) {
       <td>OAB/${escapeHtml(reg.oab_seccional)} ${escapeHtml(reg.oab_numero)}</td>
       <td>${escapeHtml(reg.municipio)}</td>
       <td>${zonas}</td>
+      <td>${(reg.municipios_apoio || []).length ? escapeHtml(reg.municipios_apoio.join(', ')) : '<span style="color:var(--cor-texto-suave)">—</span>'}</td>
       <td>${formatarTelefone(reg.telefone)}</td>
       <td>${escapeHtml(reg.email)}</td>
       <td><a href="#" class="link-doc" data-path="${escapeHtml(reg.documento_oab_path)}">Ver OAB</a></td>
@@ -149,7 +150,7 @@ function aplicarFiltros() {
 function renderizarTabela() {
   const filtrados = aplicarFiltros();
   if (filtrados.length === 0) {
-    tabelaCorpo.innerHTML = '<tr><td colspan="11" class="estado-vazio">Nenhum registro encontrado com os filtros atuais.</td></tr>';
+    tabelaCorpo.innerHTML = '<tr><td colspan="12" class="estado-vazio">Nenhum registro encontrado com os filtros atuais.</td></tr>';
     return;
   }
   tabelaCorpo.innerHTML = filtrados.map(linhaHtml).join('');
@@ -179,7 +180,7 @@ async function carregarRegistros() {
     .order('created_at', { ascending: false });
 
   if (error) {
-    tabelaCorpo.innerHTML = `<tr><td colspan="10" class="estado-vazio">Erro ao carregar dados: ${escapeHtml(error.message)}</td></tr>`;
+    tabelaCorpo.innerHTML = `<tr><td colspan="12" class="estado-vazio">Erro ao carregar dados: ${escapeHtml(error.message)}</td></tr>`;
     return;
   }
 

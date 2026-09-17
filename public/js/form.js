@@ -11,8 +11,11 @@ const docInput = document.getElementById('documento_oab');
 const arquivoSelecionado = document.getElementById('arquivo-selecionado');
 const mensagem = document.getElementById('mensagem');
 const btnEnviar = document.getElementById('btn-enviar');
+const listaApoio = document.getElementById('lista-municipios-apoio');
+const btnAddApoio = document.getElementById('btn-add-apoio');
 
 let municipiosZonas = new Map(); // municipio -> zonas[]
+let todosMunicipios = [];
 
 // ---------------------------------------------------------------------
 // Carrega a lista de municípios (e zonas) do Supabase
@@ -32,12 +35,37 @@ async function carregarMunicipios() {
   municipioSelect.innerHTML = '<option value="" disabled selected>Selecione o município</option>';
   for (const row of data) {
     municipiosZonas.set(row.municipio, row.zonas || []);
+    todosMunicipios.push(row.municipio);
     const opt = document.createElement('option');
     opt.value = row.municipio;
     opt.textContent = row.municipio;
     municipioSelect.appendChild(opt);
   }
 }
+
+// ---------------------------------------------------------------------
+// Município(s) de apoio — linhas repetíveis, opcionais
+// ---------------------------------------------------------------------
+function opcoesMunicipios(selecionado) {
+  let html = '<option value="">Selecione um município</option>';
+  for (const nome of todosMunicipios) {
+    html += `<option value="${nome}" ${nome === selecionado ? 'selected' : ''}>${nome}</option>`;
+  }
+  return html;
+}
+
+function criarLinhaApoio() {
+  const linha = document.createElement('div');
+  linha.className = 'linha-municipio-apoio';
+  linha.innerHTML = `
+    <select class="select-municipio-apoio">${opcoesMunicipios('')}</select>
+    <button type="button" class="btn-remover-apoio" title="Remover">×</button>
+  `;
+  linha.querySelector('.btn-remover-apoio').addEventListener('click', () => linha.remove());
+  listaApoio.appendChild(linha);
+}
+
+btnAddApoio.addEventListener('click', () => criarLinhaApoio());
 
 municipioSelect.addEventListener('change', () => {
   const zonas = municipiosZonas.get(municipioSelect.value) || [];
@@ -211,6 +239,10 @@ form.addEventListener('submit', async (ev) => {
 
     if (erroUpload) throw erroUpload;
 
+    const municipiosApoio = Array.from(document.querySelectorAll('.select-municipio-apoio'))
+      .map((sel) => sel.value)
+      .filter((valor, indice, lista) => valor && valor !== dados.municipio && lista.indexOf(valor) === indice);
+
     const { error: erroInsert } = await supabase.from('advogados').insert({
       nome_completo: dados.nome_completo,
       cpf: dados.cpf.replace(/\D/g, ''),
@@ -219,6 +251,7 @@ form.addEventListener('submit', async (ev) => {
       telefone: dados.telefone.replace(/\D/g, ''),
       email: dados.email,
       municipio: dados.municipio,
+      municipios_apoio: municipiosApoio,
       documento_oab_path: caminho,
       consentimento_lgpd: true,
     });

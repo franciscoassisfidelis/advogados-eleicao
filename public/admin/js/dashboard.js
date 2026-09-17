@@ -56,6 +56,30 @@ async function abrirDocumento(path) {
   window.open(data.signedUrl, '_blank', 'noopener');
 }
 
+async function excluirCadastro(id, documentoPath, nome) {
+  if (!window.confirm(`Excluir o cadastro de "${nome}"? Esta ação não pode ser desfeita.`)) {
+    return;
+  }
+
+  if (documentoPath) {
+    const { error: erroStorage } = await supabase.storage.from('oab-documentos').remove([documentoPath]);
+    if (erroStorage) {
+      console.error(erroStorage);
+    }
+  }
+
+  const { error } = await supabase.from('advogados').delete().eq('id', id);
+  if (error) {
+    mostrarToast('Erro ao excluir cadastro.', 'erro');
+    return;
+  }
+
+  registros = registros.filter((r) => r.id !== id);
+  atualizarResumo();
+  renderizarTabela();
+  mostrarToast('Cadastro excluído.');
+}
+
 async function alterarStatus(id, novoStatus, selectEl) {
   const anterior = selectEl.dataset.valorAtual;
   const { error } = await supabase.from('advogados').update({ status: novoStatus }).eq('id', id);
@@ -93,6 +117,7 @@ function linhaHtml(reg) {
         </select>
       </td>
       <td>${formatarData(reg.created_at)}</td>
+      <td><button class="btn-excluir" data-id="${reg.id}" data-path="${escapeHtml(reg.documento_oab_path)}" data-nome="${escapeHtml(reg.nome_completo)}" title="Excluir cadastro">🗑</button></td>
     </tr>
   `;
 }
@@ -124,7 +149,7 @@ function aplicarFiltros() {
 function renderizarTabela() {
   const filtrados = aplicarFiltros();
   if (filtrados.length === 0) {
-    tabelaCorpo.innerHTML = '<tr><td colspan="10" class="estado-vazio">Nenhum registro encontrado com os filtros atuais.</td></tr>';
+    tabelaCorpo.innerHTML = '<tr><td colspan="11" class="estado-vazio">Nenhum registro encontrado com os filtros atuais.</td></tr>';
     return;
   }
   tabelaCorpo.innerHTML = filtrados.map(linhaHtml).join('');
@@ -183,6 +208,13 @@ tabelaCorpo.addEventListener('change', (ev) => {
   const select = ev.target.closest('.status-select');
   if (select) {
     alterarStatus(select.dataset.id, select.value, select);
+  }
+});
+
+tabelaCorpo.addEventListener('click', (ev) => {
+  const btn = ev.target.closest('.btn-excluir');
+  if (btn) {
+    excluirCadastro(btn.dataset.id, btn.dataset.path, btn.dataset.nome);
   }
 });
 

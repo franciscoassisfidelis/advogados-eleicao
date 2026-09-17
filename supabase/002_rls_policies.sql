@@ -72,6 +72,5 @@ create policy "advogados: admin atualiza"
   using (true)
   with check (true);
 
--- Sem policy de DELETE: exclusões, se necessárias, feitas via
--- service_role (dashboard do Supabase ou função administrativa), nunca
--- pelo cliente autenticado comum.
+-- Policy de DELETE (admin pode excluir cadastros, ex.: testes/duplicados
+-- pelo botão 🗑 do dashboard) — ver 005_grants_and_delete_policy.sql.

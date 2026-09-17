@@ -386,6 +386,18 @@ select.status-select {
   cursor: pointer;
 }
 
+.btn-excluir {
+  background: none;
+  border: 1.5px solid var(--cor-erro);
+  color: var(--cor-erro);
+  border-radius: 7px;
+  padding: 5px 9px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  line-height: 1;
+}
+.btn-excluir:hover { background: var(--cor-erro-fundo); }
+
 a.link-doc {
   color: var(--azul);
   font-weight: 700;

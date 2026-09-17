@@ -17,6 +17,7 @@ const filtroStatus = document.getElementById('filtro-status');
 const toast = document.getElementById('toast');
 const btnExportar = document.getElementById('btn-exportar');
 const btnSalvarDrive = document.getElementById('btn-salvar-drive');
+const btnSenha = document.getElementById('btn-senha');
 const btnSair = document.getElementById('btn-sair');
 
 let registros = [];
@@ -183,6 +184,21 @@ tabelaCorpo.addEventListener('change', (ev) => {
   if (select) {
     alterarStatus(select.dataset.id, select.value, select);
   }
+});
+
+btnSenha.addEventListener('click', async () => {
+  const novaSenha = window.prompt('Digite a nova senha de acesso ao dashboard (mínimo 6 caracteres):');
+  if (!novaSenha) return;
+  if (novaSenha.length < 6) {
+    mostrarToast('A senha precisa ter pelo menos 6 caracteres.', 'erro');
+    return;
+  }
+  const { error } = await supabase.auth.updateUser({ password: novaSenha });
+  if (error) {
+    mostrarToast('Erro ao definir senha: ' + error.message, 'erro');
+    return;
+  }
+  mostrarToast('Senha definida! Use-a para entrar da próxima vez.');
 });
 
 btnSair.addEventListener('click', async () => {

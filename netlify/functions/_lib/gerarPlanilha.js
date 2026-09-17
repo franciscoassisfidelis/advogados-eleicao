@@ -30,6 +30,19 @@ function formatarTelefone(tel) {
  * @param {Array<object>} advogados
  * @returns {Buffer}
  */
+function formatarMunicipiosApoio(a) {
+  const info = a.municipios_apoio_zonas || [];
+  if (info.length) {
+    return info
+      .map((item) => {
+        const zonas = (item.zonas || []).length ? item.zonas.map((z) => `${z}ª`).join('/') : 'a confirmar';
+        return `${item.municipio} (${zonas})`;
+      })
+      .join(', ');
+  }
+  return (a.municipios_apoio || []).join(', ');
+}
+
 function gerarPlanilhaAdvogados(advogados) {
   const linhas = advogados.map((a) => ({
     'Nome completo': a.nome_completo,
@@ -39,7 +52,7 @@ function gerarPlanilhaAdvogados(advogados) {
     'Zona(s) eleitoral(is)': (a.zonas_eleitorais || []).length
       ? a.zonas_eleitorais.map((z) => `${z}ª`).join(', ')
       : 'A confirmar',
-    'Município(s) de apoio': (a.municipios_apoio || []).join(', '),
+    'Município(s) de apoio': formatarMunicipiosApoio(a),
     Telefone: formatarTelefone(a.telefone),
     'E-mail': a.email,
     Status: a.status === 'confirmado' ? 'Confirmado' : 'Pendente',

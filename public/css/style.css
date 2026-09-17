@@ -171,11 +171,21 @@ input:focus, select:focus {
   color: #7a5b00;
 }
 
+.item-municipio-apoio {
+  margin-bottom: 10px;
+}
+
 .linha-municipio-apoio {
   display: flex;
   gap: 8px;
   align-items: center;
-  margin-bottom: 8px;
+}
+
+.zona-apoio-texto {
+  font-size: 0.78rem;
+  color: var(--cor-primaria);
+  margin-top: 4px;
+  padding-left: 2px;
 }
 
 .linha-municipio-apoio select {

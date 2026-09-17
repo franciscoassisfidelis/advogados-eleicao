@@ -54,15 +54,29 @@ function opcoesMunicipios(selecionado) {
   return html;
 }
 
+function textoZona(zonas) {
+  if (!zonas || zonas.length === 0) return 'Zona eleitoral a confirmar.';
+  if (zonas.length === 1) return `Zona eleitoral: ${zonas[0]}ª Zona.`;
+  return `Abrange ${zonas.length} zonas eleitorais: ${zonas.map((z) => `${z}ª`).join(', ')}.`;
+}
+
 function criarLinhaApoio() {
-  const linha = document.createElement('div');
-  linha.className = 'linha-municipio-apoio';
-  linha.innerHTML = `
-    <select class="select-municipio-apoio">${opcoesMunicipios('')}</select>
-    <button type="button" class="btn-remover-apoio" title="Remover">×</button>
+  const item = document.createElement('div');
+  item.className = 'item-municipio-apoio';
+  item.innerHTML = `
+    <div class="linha-municipio-apoio">
+      <select class="select-municipio-apoio">${opcoesMunicipios('')}</select>
+      <button type="button" class="btn-remover-apoio" title="Remover">×</button>
+    </div>
+    <div class="zona-apoio-texto"></div>
   `;
-  linha.querySelector('.btn-remover-apoio').addEventListener('click', () => linha.remove());
-  listaApoio.appendChild(linha);
+  const select = item.querySelector('.select-municipio-apoio');
+  const zonaTexto = item.querySelector('.zona-apoio-texto');
+  select.addEventListener('change', () => {
+    zonaTexto.textContent = select.value ? textoZona(municipiosZonas.get(select.value)) : '';
+  });
+  item.querySelector('.btn-remover-apoio').addEventListener('click', () => item.remove());
+  listaApoio.appendChild(item);
 }
 
 btnAddApoio.addEventListener('click', () => criarLinhaApoio());

@@ -95,6 +95,20 @@ async function alterarStatus(id, novoStatus, selectEl) {
   mostrarToast('Status atualizado.');
 }
 
+function formatarMunicipiosApoio(reg) {
+  const info = reg.municipios_apoio_zonas || [];
+  if (info.length) {
+    return info
+      .map((item) => {
+        const zonas = (item.zonas || []).length ? item.zonas.map((z) => `${z}ª`).join('/') : 'a confirmar';
+        return `${escapeHtml(item.municipio)} (${zonas})`;
+      })
+      .join(', ');
+  }
+  if ((reg.municipios_apoio || []).length) return escapeHtml(reg.municipios_apoio.join(', '));
+  return '<span style="color:var(--cor-texto-suave)">—</span>';
+}
+
 function linhaHtml(reg) {
   const zonas = (reg.zonas_eleitorais || []).length
     ? reg.zonas_eleitorais.map((z) => `${z}ª`).join(', ')

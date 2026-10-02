@@ -5,20 +5,6 @@
 [functions]
   node_bundler = "esbuild"
 
-# Cadastramento encerrado: a raiz exibe a página de encerramento.
-# Para reabrir o formulário, remova estas duas regras.
-[[redirects]]
-  from = "/"
-  to = "/encerrado.html"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/index.html"
-  to = "/encerrado.html"
-  status = 200
-  force = true
-
 [[headers]]
   for = "/admin/*"
   [headers.values]

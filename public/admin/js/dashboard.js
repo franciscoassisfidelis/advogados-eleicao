@@ -75,6 +75,7 @@ async function excluirCadastro(id, documentoPath, nome) {
   }
 
   registros = registros.filter((r) => r.id !== id);
+  numerarRegistros();
   atualizarResumo();
   renderizarTabela();
   mostrarToast('Cadastro excluído.');
@@ -116,12 +117,13 @@ function linhaHtml(reg) {
 
   return `
     <tr data-id="${reg.id}">
+      <td>${reg.numero}</td>
       <td>${escapeHtml(reg.nome_completo)}</td>
       <td>${formatarCpf(reg.cpf)}</td>
       <td>OAB/${escapeHtml(reg.oab_seccional)} ${escapeHtml(reg.oab_numero)}</td>
       <td>${escapeHtml(reg.municipio)}</td>
       <td>${zonas}</td>
-      <td>${(reg.municipios_apoio || []).length ? escapeHtml(reg.municipios_apoio.join(', ')) : '<span style="color:var(--cor-texto-suave)">—</span>'}</td>
+      <td>${formatarMunicipiosApoio(reg)}</td>
       <td>${formatarTelefone(reg.telefone)}</td>
       <td>${escapeHtml(reg.email)}</td>
       <td><a href="#" class="link-doc" data-path="${escapeHtml(reg.documento_oab_path)}">Ver OAB</a></td>
@@ -141,6 +143,11 @@ function escapeHtml(str) {
   return String(str ?? '').replace(/[&<>"']/g, (c) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
   }[c]));
+}
+
+// Número sequencial do cadastro (1 = o mais antigo), fixo mesmo com filtros ativos.
+function numerarRegistros() {
+  registros.forEach((r, i) => { r.numero = i + 1; });
 }
 
 function aplicarFiltros() {
@@ -164,7 +171,7 @@ function aplicarFiltros() {
 function renderizarTabela() {
   const filtrados = aplicarFiltros();
   if (filtrados.length === 0) {
-    tabelaCorpo.innerHTML = '<tr><td colspan="12" class="estado-vazio">Nenhum registro encontrado com os filtros atuais.</td></tr>';
+    tabelaCorpo.innerHTML = '<tr><td colspan="13" class="estado-vazio">Nenhum registro encontrado com os filtros atuais.</td></tr>';
     return;
   }
   tabelaCorpo.innerHTML = filtrados.map(linhaHtml).join('');
@@ -196,12 +203,12 @@ async function carregarRegistros() {
     const { data, error } = await supabase
       .from('advogados')
       .select('*')
-      .order('created_at', { ascending: false })
+      .order('created_at', { ascending: true })
       .order('id', { ascending: true })
       .range(inicio, inicio + TAMANHO_PAGINA - 1);
 
     if (error) {
-      tabelaCorpo.innerHTML = `<tr><td colspan="12" class="estado-vazio">Erro ao carregar dados: ${escapeHtml(error.message)}</td></tr>`;
+      tabelaCorpo.innerHTML = `<tr><td colspan="13" class="estado-vazio">Erro ao carregar dados: ${escapeHtml(error.message)}</td></tr>`;
       return;
     }
     todos.push(...data);
@@ -209,6 +216,7 @@ async function carregarRegistros() {
   }
 
   registros = todos;
+  numerarRegistros();
   atualizarResumo();
   renderizarTabela();
 }

@@ -187,18 +187,28 @@ async function carregarMunicipiosFiltro() {
   }
 }
 
-async function carregarRegistros() {
-  const { data, error } = await supabase
-    .from('advogados')
-    .select('*')
-    .order('created_at', { ascending: false });
+// A API do Supabase devolve no máximo 1.000 linhas por requisição: busca em páginas.
+const TAMANHO_PAGINA = 1000;
 
-  if (error) {
-    tabelaCorpo.innerHTML = `<tr><td colspan="12" class="estado-vazio">Erro ao carregar dados: ${escapeHtml(error.message)}</td></tr>`;
-    return;
+async function carregarRegistros() {
+  const todos = [];
+  for (let inicio = 0; ; inicio += TAMANHO_PAGINA) {
+    const { data, error } = await supabase
+      .from('advogados')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .order('id', { ascending: true })
+      .range(inicio, inicio + TAMANHO_PAGINA - 1);
+
+    if (error) {
+      tabelaCorpo.innerHTML = `<tr><td colspan="12" class="estado-vazio">Erro ao carregar dados: ${escapeHtml(error.message)}</td></tr>`;
+      return;
+    }
+    todos.push(...data);
+    if (data.length < TAMANHO_PAGINA) break;
   }
 
-  registros = data;
+  registros = todos;
   atualizarResumo();
   renderizarTabela();
 }

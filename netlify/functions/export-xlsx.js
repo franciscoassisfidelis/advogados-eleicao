@@ -1,5 +1,6 @@
 const { exigirAdmin } = require('./_lib/supabaseAdmin');
 const { gerarPlanilhaAdvogados } = require('./_lib/gerarPlanilha');
+const { buscarTodosAdvogados } = require('./_lib/buscarTodosAdvogados');
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'GET') {
@@ -9,15 +10,9 @@ exports.handler = async (event) => {
   try {
     const { supabaseAdmin } = await exigirAdmin(event);
 
-    const { data: advogados, error } = await supabaseAdmin
-      .from('advogados')
-      .select('*')
-      .order('municipio', { ascending: true })
-      .order('nome_completo', { ascending: true });
+    const advogados = await buscarTodosAdvogados(supabaseAdmin);
 
-    if (error) throw error;
-
-    const buffer = gerarPlanilhaAdvogados(advogados || []);
+    const buffer = gerarPlanilhaAdvogados(advogados);
     const dataHoje = new Date().toISOString().slice(0, 10);
 
     return {

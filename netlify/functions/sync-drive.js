@@ -18,6 +18,7 @@ const { google } = require('googleapis');
 const { Readable } = require('stream');
 const { exigirAdmin } = require('./_lib/supabaseAdmin');
 const { gerarPlanilhaAdvogados } = require('./_lib/gerarPlanilha');
+const { buscarTodosAdvogados } = require('./_lib/buscarTodosAdvogados');
 
 async function getDriveClient() {
   const credsJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
@@ -53,15 +54,9 @@ exports.handler = async (event) => {
       };
     }
 
-    const { data: advogados, error } = await supabaseAdmin
-      .from('advogados')
-      .select('*')
-      .order('municipio', { ascending: true })
-      .order('nome_completo', { ascending: true });
+    const advogados = await buscarTodosAdvogados(supabaseAdmin);
 
-    if (error) throw error;
-
-    const buffer = gerarPlanilhaAdvogados(advogados || []);
+    const buffer = gerarPlanilhaAdvogados(advogados);
     const dataHoje = new Date().toISOString().slice(0, 10);
     const nomeArquivo = `advogados-dia-da-eleicao-${dataHoje}.xlsx`;
 
